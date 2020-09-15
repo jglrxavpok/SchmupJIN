@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using General;
+using UnityEngine;
 
 namespace Player {
     
-    [RequireComponent(typeof(Engine))]
+    [RequireComponent(typeof(Physics))]
+    [RequireComponent(typeof(Gun))]
     public class InputController : MonoBehaviour {
-        private Engine engine;
+        private Physics physics;
+        private Gun gun;
         
         [SerializeField]
         private float horizontalSpeed = 5f;
@@ -23,12 +26,17 @@ namespace Player {
         }
 
         private void Start() {
-            engine = GetComponent<Engine>();
+            physics = GetComponent<Physics>();
+            gun = GetComponent<Gun>();
         }
 
         private void Update() {
             Vector2 velocity = new Vector2(Input.GetAxis("Horizontal")*HorizontalSpeed, Input.GetAxis("Vertical")*VerticalSpeed);
-            engine.velocity = velocity;
+            physics.Velocity = velocity;
+
+            if (Input.GetButton("Shoot")) {
+                gun.AttemptFire();
+            }
         }
     }
 }

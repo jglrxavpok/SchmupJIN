@@ -1,17 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-public class Engine : MonoBehaviour {
+public class Physics : MonoBehaviour {
 
     public Vector2 Position {
         get => transform.position;
         set => transform.position = value;
     }
 
-    public Vector2 velocity;
+    public Vector2 Velocity {
+        get;
+        set;
+    }
 
     private void Update() {
-        Vector2 newPosition = Position + Vector2.right * (velocity.x * Time.deltaTime);
+        Vector2 newPosition = Position + Vector2.right * (Velocity.x * Time.deltaTime);
         // separate axises to handle sliding against screen, walls, etc.
         // step X
         if (IsPositionValid(newPosition)) {
@@ -19,7 +22,7 @@ public class Engine : MonoBehaviour {
         }
         
         // stepY
-        newPosition = Position + Vector2.up * (velocity.y * Time.deltaTime);
+        newPosition = Position + Vector2.up * (Velocity.y * Time.deltaTime);
         if (IsPositionValid(newPosition)) {
             Position = newPosition;
         }

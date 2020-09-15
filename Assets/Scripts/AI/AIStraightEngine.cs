@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AI {
-    [RequireComponent(typeof(Engine))]
+    [RequireComponent(typeof(Physics))]
     public class AIStraightEngine : MonoBehaviour {
 
-        private Engine engine;
+        private Physics physics;
         
         [SerializeField]
         private float speed = 10f;
@@ -16,12 +15,11 @@ namespace AI {
         }
 
         private void Start() {
-            engine = GetComponent<Engine>();
+            physics = GetComponent<Physics>();
         }
 
         private void Update() {
-            engine.velocity.x = -Speed;
-            engine.velocity.y = 0;
+            physics.Velocity = new Vector2(-Speed, 0);
         }
     }
 }

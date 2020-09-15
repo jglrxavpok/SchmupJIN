@@ -1,24 +1,23 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseAvatar : MonoBehaviour {
+public abstract class BaseAvatar : MonoBehaviour {
 
     [SerializeField]
-    private float maxHealth = 10f;
+    private int maxHealth = 10;
 
     [SerializeField]
-    private float maxEnergy = 10f;
+    private int maxEnergy = 10;
 
-    public float MaxHealth => maxHealth;
-    public float MaxEnergy => maxEnergy;
+    public int MaxHealth => maxHealth;
+    public int MaxEnergy => maxEnergy;
 
-    public float Energy {
+    public int Energy {
         get;
         private set;
     }
 
-    public float CurrentHealth {
+    public int CurrentHealth {
         get;
         private set;
     }
@@ -29,16 +28,20 @@ public class BaseAvatar : MonoBehaviour {
         Energy = maxEnergy;
     }
 
-    public virtual void Hurt(float amount) {
+    public virtual void Hurt(int amount) {
         if (amount < 0)
             return;
         CurrentHealth -= amount;
-        if (CurrentHealth < 0f) {
-            // TODO: death
+        if (CurrentHealth < 0) {
+            Die();
         }
     }
 
-    public virtual void Heal(float amount) {
+    protected virtual void Die() {
+        Destroy(gameObject);
+    }
+
+    public virtual void Heal(int amount) {
         if (amount > 0)
             return;
         CurrentHealth += amount;

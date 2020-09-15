@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Player {
-    public class LimitedMovementEngine : Engine {
+    public class LimitedMovementEngine : Physics {
 
         /// <summary>
         /// Portion of the screen the player is allowed in (by default, 10%).
