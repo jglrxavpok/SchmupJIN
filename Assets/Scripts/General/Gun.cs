@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace General {
     // TODO: different gun types
@@ -15,6 +16,11 @@ namespace General {
         private float cooldown;
         
         public GameObject BulletPrefab => bulletPrefab;
+
+        private void Start() {
+            // don't shoot right after spawning
+            cooldown = TimeBetweenShots;
+        }
 
         private void Fire() {
             GameObject bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
