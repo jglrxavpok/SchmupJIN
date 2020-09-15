@@ -5,9 +5,11 @@ namespace Player {
     
     [RequireComponent(typeof(Physics))]
     [RequireComponent(typeof(Gun))]
+    [RequireComponent(typeof(PlayerAvatar))]
     public class InputController : MonoBehaviour {
         private Physics physics;
         private Gun gun;
+        private PlayerAvatar avatar;
         
         [SerializeField]
         private float horizontalSpeed = 5f;
@@ -28,15 +30,18 @@ namespace Player {
         private void Start() {
             physics = GetComponent<Physics>();
             gun = GetComponent<Gun>();
+            avatar = GetComponent<PlayerAvatar>();
         }
 
         private void Update() {
             Vector2 velocity = new Vector2(Input.GetAxis("Horizontal")*HorizontalSpeed, Input.GetAxis("Vertical")*VerticalSpeed);
             physics.Velocity = velocity;
 
-            if (Input.GetButton("Shoot")) {
+            bool shouldShoot = Input.GetButton("Shoot");
+            if (shouldShoot) {
                 gun.AttemptFire();
             }
+            avatar.AllowEnergyRegeneration = !shouldShoot;
         }
     }
 }

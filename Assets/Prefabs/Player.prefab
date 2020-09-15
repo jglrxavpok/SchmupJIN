@@ -175,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   maxEnergy: 10
+  energyRegeneration: 5
 --- !u!114 &364735550703514049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,3 +191,4 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1066444552666445424, guid: 5c3a287717c3c6248beaf253d9a4ed78,
     type: 3}
   timeBetweenShots: 0.12
+  energyCost: 0.5
