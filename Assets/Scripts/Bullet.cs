@@ -11,7 +11,7 @@ public abstract class Bullet : MonoBehaviour {
 
     protected Physics Physics => physics;
 
-    private void Start() {
+    protected virtual void Start() {
         physics = GetComponent<Physics>();
     }
 

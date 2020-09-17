@@ -40,6 +40,9 @@ public abstract class BaseAvatar : MonoBehaviour {
     
     public delegate void OnDeath();
     public event OnDeath OnDeathEvent; 
+    
+    public delegate void OnHurt(int damageAmount);
+    public event OnHurt OnHurtEvent; 
 
     
     // Start is called before the first frame update
@@ -67,6 +70,7 @@ public abstract class BaseAvatar : MonoBehaviour {
         if (amount < 0)
             return;
         CurrentHealth -= amount;
+        OnHurtEvent?.Invoke(amount);
         if (CurrentHealth < 0) {
             Die();
         }

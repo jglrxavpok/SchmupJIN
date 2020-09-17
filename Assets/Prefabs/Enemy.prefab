@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8991367092258775441}
   - component: {fileID: -5764554066411521211}
   - component: {fileID: -4746327851713662800}
+  - component: {fileID: 3305825027371799556}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemies
@@ -160,7 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5f346df00642e18ea11a474689a2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  minSpeed: 3
+  maxSpeed: 12
 --- !u!114 &2894146501132869783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +190,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   maxEnergy: 1
+  energyRegeneration: 1
+  slowEnergyRegenerationMultiplier: 0.5
 --- !u!114 &-5764554066411521211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +207,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8184761726893613096, guid: 84816506d5518324f9861ddaaebdbc05,
     type: 3}
   timeBetweenShots: 1.5
+  energyCost: 1
 --- !u!114 &-4746327851713662800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,3 +220,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1c770cf1414768adda1f3788b5ac36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3305825027371799556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2894146501132869801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea5b0af81fd14a08897769a16a773d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2

@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Player {
     
     [RequireComponent(typeof(Physics))]
-    [RequireComponent(typeof(Gun))]
+    [RequireComponent(typeof(GunControl))]
     [RequireComponent(typeof(PlayerAvatar))]
     public class InputController : MonoBehaviour {
         private Physics physics;
-        private Gun gun;
+        private GunControl guns;
         private PlayerAvatar avatar;
         
         [SerializeField]
@@ -29,7 +29,7 @@ namespace Player {
 
         private void Start() {
             physics = GetComponent<Physics>();
-            gun = GetComponent<Gun>();
+            guns = GetComponent<GunControl>();
             avatar = GetComponent<PlayerAvatar>();
         }
 
@@ -39,7 +39,11 @@ namespace Player {
 
             bool shouldShoot = Input.GetButton("Shoot");
             if (shouldShoot) {
-                gun.AttemptFire();
+                guns.AttemptFire();
+            }
+
+            if (Input.GetButtonDown("Switch weapon")) {
+                guns.SwitchFireMode();
             }
             avatar.AllowEnergyRegeneration = !shouldShoot;
         }

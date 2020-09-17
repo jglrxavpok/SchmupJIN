@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour {
     public delegate void EnemySpawn(GameObject enemy);
     public event EnemySpawn OnEnemySpawn;
 
+    public delegate void PlayerSpawn(GameObject enemy);
+
+    public event PlayerSpawn OnPlayerSpawn;
+
     private void Awake() {
         if (instance != null && instance != this) {
             Destroy(gameObject);
@@ -49,7 +53,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        Instantiate(PlayerPrefab, PlayerPosition, Quaternion.identity);
+        GameObject player = Instantiate(PlayerPrefab, PlayerPosition, Quaternion.identity);
+        OnPlayerSpawn?.Invoke(player);
         InvokeRepeating(nameof(SpawnEnemy), TimeBetweenEnemies, TimeBetweenEnemies);
     }
     

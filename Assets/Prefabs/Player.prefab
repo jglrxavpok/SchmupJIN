@@ -16,6 +16,9 @@ GameObject:
   - component: {fileID: 3682481551358394352}
   - component: {fileID: 3682481551358394353}
   - component: {fileID: 364735550703514049}
+  - component: {fileID: 8549800411031348296}
+  - component: {fileID: 828985506047575492}
+  - component: {fileID: 1852996294101787266}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -146,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f79be7a9c94735b022a98aa981bf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  limiterRatio: 0.2
+  limiterRatio: 0.4
 --- !u!114 &3682481551358394352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,9 +176,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccf51dbd0464de0aab4b6b24dc660cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  maxEnergy: 10
+  maxHealth: 8
+  maxEnergy: 50
   energyRegeneration: 5
+  slowEnergyRegenerationMultiplier: 2.5
 --- !u!114 &364735550703514049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,3 +196,51 @@ MonoBehaviour:
     type: 3}
   timeBetweenShots: 0.12
   energyCost: 0.5
+--- !u!114 &8549800411031348296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682481551358394358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84096fafaeb14449950cf32e201bccc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6476646824464512179, guid: a55ee64a9ead06945a1566bed37b08e0,
+    type: 3}
+  timeBetweenShots: 0.05
+  energyCost: 1
+--- !u!114 &828985506047575492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682481551358394358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84096fafaeb14449950cf32e201bccc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 8591537862578618230, guid: dea9012b9af7e8a4ebd944831889498e,
+    type: 3}
+  timeBetweenShots: 0.1
+  energyCost: 2
+--- !u!114 &1852996294101787266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682481551358394358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2807ad6c40014f249a1e955f7c6cc027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guns:
+  - {fileID: 364735550703514049}
+  - {fileID: 8549800411031348296}
+  - {fileID: 828985506047575492}

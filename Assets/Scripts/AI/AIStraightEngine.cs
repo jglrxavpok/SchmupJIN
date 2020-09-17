@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Random = System.Random;
 
 namespace AI {
     [RequireComponent(typeof(Physics))]
@@ -7,19 +8,16 @@ namespace AI {
         private Physics physics;
         
         [SerializeField]
-        private float speed = 10f;
+        private float minSpeed = 10f;
 
-        public float Speed {
-            get => speed;
-            set => speed = value;
-        }
-
+        [SerializeField]
+        private float maxSpeed = 10f;
+        
         private void Start() {
+            Random rng = new Random();
             physics = GetComponent<Physics>();
-        }
-
-        private void Update() {
-            physics.Velocity = new Vector2(-Speed, 0);
+            double speed = rng.NextDouble() * (maxSpeed-minSpeed) + minSpeed;
+            physics.Velocity = new Vector2((float) -speed, 0);
         }
     }
 }
