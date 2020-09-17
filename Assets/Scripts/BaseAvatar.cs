@@ -28,7 +28,7 @@ public abstract class BaseAvatar : MonoBehaviour {
         set => canRegenEnergy = value;
     }
 
-    public float Energy {
+    public float CurrentEnergy {
         get;
         private set;
     }
@@ -38,22 +38,26 @@ public abstract class BaseAvatar : MonoBehaviour {
         private set;
     }
     
+    public delegate void OnDeath();
+    public event OnDeath OnDeathEvent; 
+
+    
     // Start is called before the first frame update
     void Start() {
         CurrentHealth = maxHealth;
-        Energy = maxEnergy;
+        CurrentEnergy = maxEnergy;
     }
 
-    private void Update() {
+    protected virtual void Update() {
         // if we need to refill to max, force regen
         if (refillToMaxEnergy || AllowEnergyRegeneration) {
-            if (Energy < MaxEnergy) {
+            if (CurrentEnergy < MaxEnergy) {
                 float energyRegenerationMultiplier = refillToMaxEnergy ? SlowEnergyRegenerationMultiplier : 1.0f;
-                Energy += EnergyRegeneration * Time.deltaTime * energyRegenerationMultiplier;
+                CurrentEnergy += EnergyRegeneration * Time.deltaTime * energyRegenerationMultiplier;
 
-                if (Energy >= MaxEnergy) {
+                if (CurrentEnergy >= MaxEnergy) {
                     refillToMaxEnergy = false;
-                    Energy = MaxEnergy;
+                    CurrentEnergy = MaxEnergy;
                 }
             }
         }
@@ -69,6 +73,7 @@ public abstract class BaseAvatar : MonoBehaviour {
     }
 
     protected virtual void Die() {
+        OnDeathEvent?.Invoke();
         Destroy(gameObject);
     }
 
@@ -82,15 +87,15 @@ public abstract class BaseAvatar : MonoBehaviour {
     }
 
     public bool HasEnergy() {
-        return !refillToMaxEnergy && Energy > 0;
+        return !refillToMaxEnergy && CurrentEnergy > 0;
     }
     
     public void ConsumeEnergy(float amount) {
         if(amount < 0f)
             return;
-        Energy -= amount;
-        if (Energy <= 0f) {
-            Energy = 0f;
+        CurrentEnergy -= amount;
+        if (CurrentEnergy <= 0f) {
+            CurrentEnergy = 0f;
             refillToMaxEnergy = true;
         }
     }

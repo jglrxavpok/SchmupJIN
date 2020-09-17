@@ -33,8 +33,10 @@ public class GameManager : MonoBehaviour {
     private static GameManager instance;
     public static GameManager Instance => instance;
 
-    private float cooldown;
     private Random rng;
+
+    public delegate void EnemySpawn(GameObject enemy);
+    public event EnemySpawn OnEnemySpawn;
 
     private void Awake() {
         if (instance != null && instance != this) {
@@ -48,21 +50,14 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         Instantiate(PlayerPrefab, PlayerPosition, Quaternion.identity);
+        InvokeRepeating(nameof(SpawnEnemy), TimeBetweenEnemies, TimeBetweenEnemies);
     }
-
-    private void Update() {
-        if (cooldown > 0f) {
-            cooldown -= Time.deltaTime;
-        } else {
-            SpawnEnemy();
-            cooldown = TimeBetweenEnemies;
-        }
-    }
-
+    
     private void SpawnEnemy() {
         Vector2 position = CenterEnemyPosition;
         double r = rng.NextDouble()*2f-1f;
         position.y += (float) (EnemySpawnYRandomRange * r);
-        Instantiate(EnemyPrefab, position, Quaternion.identity);
+        GameObject enemy = Instantiate(EnemyPrefab, position, Quaternion.identity);
+        OnEnemySpawn?.Invoke(enemy);
     }
 }
