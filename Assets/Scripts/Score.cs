@@ -15,10 +15,13 @@ public class Score : MonoBehaviour {
     private float animationTime = 0.0f;
     private float targetModifier = 1.0f;
 
-    private void Start() {
-        text = GetComponent<Text>();
+    private void Awake() {
         GameManager.Instance.OnPlayerSpawn += OnPlayerSpawnHandler;
         GameManager.Instance.OnEnemySpawn += OnEnemySpawnHandler;
+    }
+
+    private void Start() {
+        text = GetComponent<Text>();
     }
 
     private void OnPlayerSpawnHandler(GameObject player) {

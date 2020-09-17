@@ -16,6 +16,9 @@ namespace Player {
 
         private int selected;
 
+        public int Selected => selected;
+        public int GunCount => guns.Length;
+
         private void Start() {
             Assert.IsFalse(guns == null || guns.Length == 0);
         }
