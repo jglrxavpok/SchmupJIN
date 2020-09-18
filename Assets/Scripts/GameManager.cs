@@ -1,4 +1,6 @@
 ﻿using System;
+using AI;
+using General;
 using UnityEngine;
 using Random = System.Random;
 
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance => instance;
 
     private Random rng;
+    private PrefabPool enemyPool;
 
     public delegate void EnemySpawn(GameObject enemy);
     public event EnemySpawn OnEnemySpawn;
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        enemyPool = new PrefabPool(EnemyPrefab);
         GameObject player = Instantiate(PlayerPrefab, PlayerPosition, Quaternion.identity);
         OnPlayerSpawn?.Invoke(player);
         InvokeRepeating(nameof(SpawnEnemy), TimeBetweenEnemies, TimeBetweenEnemies);
@@ -62,7 +66,9 @@ public class GameManager : MonoBehaviour {
         Vector2 position = CenterEnemyPosition;
         double r = rng.NextDouble()*2f-1f;
         position.y += (float) (EnemySpawnYRandomRange * r);
-        GameObject enemy = Instantiate(EnemyPrefab, position, Quaternion.identity);
+        GameObject enemy = enemyPool.Retrieve(position, Quaternion.identity);
+        enemy.GetComponent<EnemyAvatar>().SourcePool = enemyPool;
+        enemy.GetComponent<KillOffscreen>().SourcePool = enemyPool;
         OnEnemySpawn?.Invoke(enemy);
     }
 }

@@ -12,7 +12,7 @@ namespace AI {
             if (other.gameObject.CompareTag("Player")) {
                 PlayerAvatar playerAvatar = other.gameObject.GetComponent<PlayerAvatar>();
                 playerAvatar.Hurt(damage);
-                Destroy(gameObject);
+                GetComponent<BaseAvatar>().Hurt(1000000);
             }
         }
     }

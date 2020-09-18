@@ -46,7 +46,7 @@ public abstract class BaseAvatar : MonoBehaviour {
 
     
     // Start is called before the first frame update
-    void Start() {
+    void OnEnable() {
         CurrentHealth = maxHealth;
         CurrentEnergy = maxEnergy;
     }
@@ -76,8 +76,12 @@ public abstract class BaseAvatar : MonoBehaviour {
         }
     }
 
-    protected virtual void Die() {
+    protected void InvokeDeathEvent() {
         OnDeathEvent?.Invoke();
+    }
+
+    protected virtual void Die() {
+        InvokeDeathEvent();
         Destroy(gameObject);
     }
 
