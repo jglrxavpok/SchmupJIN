@@ -12,7 +12,7 @@ public class FiringModeUI : MonoBehaviour {
 
     private bool init;
     
-    private void Start() {
+    private void Awake() {
         GameManager.Instance.OnPlayerSpawn += (player) => {
             control = player.GetComponent<GunControl>();
             Assert.AreEqual(modeIconBackground.Length, control.GunCount);

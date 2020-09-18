@@ -5,6 +5,12 @@ using UnityEngine;
 public abstract class Bullet : MonoBehaviour {
     [SerializeField] private int damage;
 
+    private PrefabPool sourcePool;
+
+    public PrefabPool SourcePool {
+        set => sourcePool = value;
+    }
+
     public int Damage => damage;
 
     private Physics physics;
@@ -13,6 +19,7 @@ public abstract class Bullet : MonoBehaviour {
 
     protected virtual void Start() {
         physics = GetComponent<Physics>();
+        Debug.Assert(sourcePool != null);
     }
 
     private void Update() {
@@ -28,6 +35,11 @@ public abstract class Bullet : MonoBehaviour {
         if (!avatar) return;
         
         avatar.Hurt(damage);
-        Destroy(gameObject);
+
+        if (sourcePool != null) {
+            sourcePool.Free(gameObject);
+        } else {
+            gameObject.SetActive(false);
+        }
     }
 }

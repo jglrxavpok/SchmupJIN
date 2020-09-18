@@ -14,6 +14,11 @@ namespace General {
         private float margin;
 
         private Camera camera;
+        private PrefabPool sourcePool;
+
+        public PrefabPool SourcePool {
+            set => sourcePool = value;
+        }
 
         private void Start() {
             camera = Camera.main;
@@ -23,7 +28,11 @@ namespace General {
             Vector2 inScreenSpace = camera.WorldToScreenPoint(transform.position);
             if (inScreenSpace.x < -margin || inScreenSpace.x >= Screen.width + margin || inScreenSpace.y < -margin ||
                 inScreenSpace.y >= Screen.height + margin) {
-                Destroy(gameObject);
+                if (sourcePool != null) {
+                    sourcePool.Free(gameObject);
+                } else {
+                    gameObject.SetActive(false);
+                }
             }
         }
     }

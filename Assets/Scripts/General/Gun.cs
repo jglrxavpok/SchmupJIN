@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Bullets;
 using UnityEngine;
 
 namespace General {
@@ -9,25 +10,35 @@ namespace General {
 
         [SerializeField] private float timeBetweenShots;
         [SerializeField] private float energyCost = 1;
-
+        private PrefabPool bulletPool;
+        
         /// <summary>
         /// Time, in seconds, between two bullets while keeping the shoot button pressed
         /// </summary>
         public float TimeBetweenShots => timeBetweenShots;
         public float EnergyCost => energyCost;
-        public GameObject BulletPrefab => bulletPrefab;
 
         private float cooldown;
         private BaseAvatar avatar;
 
         private void Start() {
+            bulletPool = new PrefabPool(bulletPrefab);
             // don't shoot right after spawning
             cooldown = TimeBetweenShots;
             avatar = GetComponent<BaseAvatar>();
         }
 
         private void Fire() {
-            GameObject bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
+            GameObject bullet = bulletPool.Retrieve(transform.position, Quaternion.identity);
+
+            // helix & diag have a root object to contain both up and down variants
+            DualBulletSpawner dualSpawner = bullet.GetComponent<DualBulletSpawner>();
+            if (dualSpawner != null) {
+                dualSpawner.SourcePool = bulletPool;
+            } else {
+                bullet.GetComponent<KillOffscreen>().SourcePool = bulletPool;
+                bullet.GetComponent<Bullet>().SourcePool = bulletPool;
+            }
             cooldown = TimeBetweenShots;
             avatar.ConsumeEnergy(EnergyCost);
         }
