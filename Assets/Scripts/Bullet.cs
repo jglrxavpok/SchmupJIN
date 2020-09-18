@@ -19,7 +19,6 @@ public abstract class Bullet : MonoBehaviour {
 
     protected virtual void Start() {
         physics = GetComponent<Physics>();
-        Debug.Assert(sourcePool != null);
     }
 
     private void Update() {
