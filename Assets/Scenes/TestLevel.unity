@@ -537,6 +537,7 @@ MonoBehaviour:
   centerEnemyPosition: {x: 8, y: 0}
   enemySpawnYRandomRange: 4.4
   timeBetweenEnemies: 1
+  level: {fileID: 4900000, guid: cbbf103c5aec7f64cbf03af1443e8b80, type: 3}
 --- !u!4 &802282607
 Transform:
   m_ObjectHideFlags: 0

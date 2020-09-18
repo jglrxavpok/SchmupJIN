@@ -11,7 +11,7 @@ namespace General {
         /// Margin before killing the gameobject (in screen coordinates)
         /// </summary>
         [SerializeField]
-        private float margin;
+        protected float margin;
 
         private Camera camera;
         private PrefabPool sourcePool;
@@ -26,14 +26,18 @@ namespace General {
 
         private void Update() {
             Vector2 inScreenSpace = camera.WorldToScreenPoint(transform.position);
-            if (inScreenSpace.x < -margin || inScreenSpace.x >= Screen.width + margin || inScreenSpace.y < -margin ||
-                inScreenSpace.y >= Screen.height + margin) {
+            if (OutOfBounds(inScreenSpace)) {
                 if (sourcePool != null) {
                     sourcePool.Free(gameObject);
                 } else {
                     gameObject.SetActive(false);
                 }
             }
+        }
+
+        protected virtual bool OutOfBounds(Vector2 inScreenSpace) {
+            return inScreenSpace.x < -margin || inScreenSpace.x >= Screen.width + margin || inScreenSpace.y < -margin ||
+                   inScreenSpace.y >= Screen.height + margin;
         }
     }
 }

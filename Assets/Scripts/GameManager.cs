@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using AI;
+using Data;
 using General;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = System.Random;
 
 public class GameManager : MonoBehaviour {
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour {
     /// Time in seconds between two enemy spawns
     /// </summary>
     [SerializeField] private float timeBetweenEnemies;
+    [SerializeField] private TextAsset level;
 
     private GameObject PlayerPrefab => playerPrefab;
     private GameObject EnemyPrefab => enemyPrefab;
@@ -45,6 +49,10 @@ public class GameManager : MonoBehaviour {
 
     public event PlayerSpawn OnPlayerSpawn;
 
+    private int levelIndex;
+    private List<LevelDescription> levels;
+    private Level currentLevel;
+
     private void Awake() {
         if (instance != null && instance != this) {
             Destroy(gameObject);
@@ -53,22 +61,40 @@ public class GameManager : MonoBehaviour {
 
         instance = this;
         rng = new Random();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start() {
         enemyPool = new PrefabPool(EnemyPrefab);
+
+        levels = XmlHelpers.DeserializeDatabaseFromXML<LevelDescription>(level);
+        NextLevel();
+        
         GameObject player = Instantiate(PlayerPrefab, PlayerPosition, Quaternion.identity);
         OnPlayerSpawn?.Invoke(player);
-        InvokeRepeating(nameof(SpawnEnemy), TimeBetweenEnemies, TimeBetweenEnemies);
     }
-    
-    private void SpawnEnemy() {
-        Vector2 position = CenterEnemyPosition;
-        double r = rng.NextDouble()*2f-1f;
-        position.y += (float) (EnemySpawnYRandomRange * r);
-        GameObject enemy = enemyPool.Retrieve(position, Quaternion.identity);
-        enemy.GetComponent<EnemyAvatar>().SourcePool = enemyPool;
-        enemy.GetComponent<KillOffscreen>().SourcePool = enemyPool;
+
+    private void Update() {
+        currentLevel.Execute();
+        if (currentLevel.IsOver()) {
+            NextLevel();
+            Debug.Log($"Next level: {levels[levelIndex-1].name}");
+        }
+    }
+
+    private void NextLevel() {
+        if (levelIndex >= levels.Count) {
+            // TODO
+            throw new Exception("No more levels");
+        }
+
+        levelIndex++;
+        currentLevel = new Level(enemyPool);
+        currentLevel.LoadFrom(levels[levelIndex]);
+    }
+
+    public void TriggerEnemySpawnEvent(GameObject enemy) {
         OnEnemySpawn?.Invoke(enemy);
     }
+
 }

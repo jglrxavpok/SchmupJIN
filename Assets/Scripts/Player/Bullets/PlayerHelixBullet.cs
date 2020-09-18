@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Player.Bullets {
     public class PlayerHelixBullet : Bullet {
@@ -15,6 +16,12 @@ namespace Player.Bullets {
         protected override void Start() {
             base.Start();
             startX = Physics.Position.x;
+        }
+
+        private void OnEnable() {
+            if (Physics != null) {
+                startX = Physics.Position.x;
+            }
         }
 
         protected override void Move() {
